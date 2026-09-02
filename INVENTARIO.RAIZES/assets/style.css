@@ -1,0 +1,136 @@
+body {
+    background-image: url(img/Gemini_Generated_Image_ldak1aldak1aldak.png);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    
+}
+
+.login-container {
+    width: 380px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 32px 28px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    
+}
+
+.login-container h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+    color: #6b7280;
+}
+
+.login-container > p {
+    color: #6b7280;
+    margin-bottom: 24px;
+    font-size: 14px;
+    
+}
+
+.input-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2f3542;
+    margin-bottom: 6px;
+}
+
+.input-icon {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d7dbe2;
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 45px;
+    background: #fff;
+    gap: 10px;
+}
+
+.input-icon i {
+    color: #aaa;
+    font-size: 15px;
+}
+
+.input-icon input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    color: #333;
+    background: transparent;
+}
+
+.eye-icon {
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.btn {
+    width: 100%;
+    height: 45px;
+    border-radius: 7px;
+    background-color: #4738D3;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.divider {
+    align-items: center;
+    padding: 25px 0;
+    display: flex;
+    gap: 16px;
+}
+
+.divider hr {
+    flex: 1;
+    border: none;
+    border-top: 1px solid #cfd4dc;
+}
+
+.register-text {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 12px;
+    
+}
+
+.register-btn {
+    width: 100%;
+    height: 45px;
+    border-radius: 7px;
+    background-color: #ffffff;
+    border: 1px solid #cfcfcf;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto 40px auto;
+    width: 300px;
+    
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
