@@ -370,28 +370,28 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
   }
   
 
-let timeoutBusca;
-document.getElementById('campoBusca').addEventListener('input', function() {
-    clearTimeout(timeoutBusca);
-    const texto = this.value;
+  let timeoutBusca;
+  document.getElementById('campoBusca').addEventListener('input', function() {
+      clearTimeout(timeoutBusca);
+      const texto = this.value;
 
-    timeoutBusca = setTimeout(() => {
-        fetch('buscar_equipamentos.php?busca=' + encodeURIComponent(texto))
-            .then(resposta => resposta.text())
-            .then(html => {
-                document.getElementById('corpoTabela').innerHTML = html;
-            });
-    }, 300);
-});
+      timeoutBusca = setTimeout(() => {
+          fetch('buscar_equipamentos.php?busca=' + encodeURIComponent(texto))
+              .then(resposta => resposta.text())
+              .then(html => {
+                  document.getElementById('corpoTabela').innerHTML = html;
+              });
+      }, 300);
+  });
 
-const alerta = document.getElementById('alertaSucesso');
-if (alerta) {
-  setTimeout(() => {
-    alerta.style.transition = 'opacity 0.5s';
-    alerta.style.opacity = '0';
-    setTimeout(() => alerta.remove(), 500);
-  }, 3000);
-}
+  const alerta = document.getElementById('alertaSucesso');
+  if (alerta) {
+    setTimeout(() => {
+      alerta.style.transition = 'opacity 0.5s';
+      alerta.style.opacity = '0';
+      setTimeout(() => alerta.remove(), 500);
+    }, 3000);
+  }
 </script>
 </body>
 </html>
