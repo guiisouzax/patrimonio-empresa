@@ -22,6 +22,5 @@ $stmt = $pdo->prepare("DELETE FROM equipamentos WHERE id = :id");
 $stmt->bindParam(':id', $id);
 $stmt->execute();
 
-header('Location: inventario.php?sucesso=excluido');
+echo json_encode(['sucesso' => true, 'mensagem' => 'Equipamento excluído com sucesso!']);
 exit;
-

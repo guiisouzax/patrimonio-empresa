@@ -236,7 +236,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
             </button>
         </div>
 
-        <form method="POST" action="editar_equipamento.php" class="space-y-3">
+        <form id="formEditar<?php echo $equipamento['id']; ?>" method="POST" action="editar_equipamento.php" class="space-y-3">
             <input type="hidden" name="id" value="<?php echo $equipamento['id']; ?>">
 
             <input type="text" name="patrimonio" required value="<?php echo htmlspecialchars($equipamento['patrimonio']); ?>"
@@ -273,14 +273,16 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
             </select>
 
             <div class="flex gap-2 pt-2">
+                <div id="mensagemEditar<?php echo $equipamento['id']; ?>" class="hidden mb-2"></div>
                 <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg text-sm">
                     Salvar Alterações
                 </button>
             </div>
         </form>
 
-        <form method="POST" action="excluir_equipamento.php" onsubmit="return confirm('Tem certeza que deseja excluir este equipamento? Essa ação não pode ser desfeita.');" class="mt-2">
+        <form id="formExcluir<?php echo $equipamento['id']; ?>" method="POST" action="excluir_equipamento.php" onsubmit="return confirm('Tem certeza que deseja excluir este equipamento? Essa ação não pode ser desfeita.');" class="mt-2">
             <input type="hidden" name="id" value="<?php echo $equipamento['id']; ?>">
+                  <div id="mensagemExcluir<?php echo $equipamento['id']; ?>" class="hidden mb-2"></div>
             <button type="submit" class="w-full text-red-600 hover:bg-red-50 font-medium py-2.5 rounded-lg text-sm border border-red-200">
                 <i class="fa-solid fa-trash"></i> Excluir Equipamento
             </button>
@@ -303,7 +305,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
               </button>
           </div>
 
-          <form method="POST" action="cadastrar_equipamento.php" class="space-y-3">
+          <form id="formCadastro" method="POST" action="cadastrar_equipamento.php" class="space-y-3">
               <input type="text" name="patrimonio" placeholder="Patrimônio (ex: TI-0004)" required
                     class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
 
@@ -339,7 +341,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
                   <option value="em_uso">Em Uso</option>
                   <option value="manutencao">Manutenção</option>
               </select>
-
+                    <div id="mensagemCadastro" class="hidden"></div>
               <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg text-sm mt-2">
                   Cadastrar
               </button>
@@ -370,28 +372,114 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
   }
   
 
-  let timeoutBusca;
-  document.getElementById('campoBusca').addEventListener('input', function() {
-      clearTimeout(timeoutBusca);
-      const texto = this.value;
+let timeoutBusca;
+document.getElementById('campoBusca').addEventListener('input', function() {
+    clearTimeout(timeoutBusca);
+    const texto = this.value;
 
-      timeoutBusca = setTimeout(() => {
-          fetch('buscar_equipamentos.php?busca=' + encodeURIComponent(texto))
-              .then(resposta => resposta.text())
-              .then(html => {
-                  document.getElementById('corpoTabela').innerHTML = html;
-              });
-      }, 300);
-  });
+    timeoutBusca = setTimeout(() => {
+        fetch('buscar_equipamentos.php?busca=' + encodeURIComponent(texto))
+            .then(resposta => resposta.text())
+            .then(html => {
+                document.getElementById('corpoTabela').innerHTML = html;
+            });
+    }, 300);
+});
 
-  const alerta = document.getElementById('alertaSucesso');
-  if (alerta) {
-    setTimeout(() => {
-      alerta.style.transition = 'opacity 0.5s';
-      alerta.style.opacity = '0';
-      setTimeout(() => alerta.remove(), 500);
-    }, 3000);
-  }
+const alerta = document.getElementById('alertaSucesso');
+if (alerta) {
+  setTimeout(() => {
+    alerta.style.transition = 'opacity 0.5s';
+    alerta.style.opacity = '0';
+    setTimeout(() => alerta.remove(), 500);
+  }, 3000);
+}
+
+document.getElementById('formCadastro').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const dados = new FormData(form);
+    const mensagemDiv = document.getElementById('mensagemCadastro');
+
+    fetch('cadastrar_equipamento.php', {
+        method: 'POST',
+        body: dados
+    })
+    .then(resposta => resposta.json())
+    .then(resultado => {
+        mensagemDiv.classList.remove('hidden');
+        mensagemDiv.textContent = resultado.mensagem;
+        mensagemDiv.className = resultado.sucesso 
+            ? 'bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-2 rounded-lg text-sm'
+            : 'bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm';
+
+        if (resultado.sucesso) {
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        }
+    });
+});
+document.querySelectorAll('form[id^="formEditar"]').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const dados = new FormData(form);
+        const id = form.getAttribute('id').replace('formEditar', '');
+        const mensagemDiv = document.getElementById('mensagemEditar' + id);
+
+        fetch('editar_equipamento.php', {
+            method: 'POST',
+            body: dados
+        })
+        .then(resposta => resposta.json())
+        .then(resultado => {
+            mensagemDiv.classList.remove('hidden');
+            mensagemDiv.textContent = resultado.mensagem;
+            mensagemDiv.className = resultado.sucesso 
+                ? 'bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-2 rounded-lg text-sm mb-2'
+                : 'bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm mb-2';
+
+            if (resultado.sucesso) {
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            }
+        });
+    });
+});
+document.querySelectorAll('form[id^="formExcluir"]').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        if (!confirm('Tem certeza que deseja excluir este equipamento? Essa ação não pode ser desfeita.')) {
+            return;
+        }
+
+        const dados = new FormData(form);
+        const id = form.getAttribute('id').replace('formExcluir', '');
+        const mensagemDiv = document.getElementById('mensagemExcluir' + id);
+
+        fetch('excluir_equipamento.php', {
+            method: 'POST',
+            body: dados
+        })
+        .then(resposta => resposta.json())
+        .then(resultado => {
+            mensagemDiv.classList.remove('hidden');
+            mensagemDiv.textContent = resultado.mensagem;
+            mensagemDiv.className = 'bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm mb-2';
+
+            if (resultado.sucesso) {
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            }
+        });
+    });
+});
+</script>
 </script>
 </body>
 </html>

@@ -40,10 +40,10 @@ try {
 
     $stmt->execute();
 
-    header('Location: inventario.php?sucesso=editado');
+    echo json_encode(['sucesso' => true, 'mensagem' => 'Equipamento atualizado com sucesso!']);
     exit;
 
 } catch (PDOException $e) {
-    header('Location: inventario.php?erro=patrimonio_duplicado');
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Erro: patrimônio já usado por outro equipamento.']);
     exit;
 }

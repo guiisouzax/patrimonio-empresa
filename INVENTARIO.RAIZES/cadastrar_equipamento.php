@@ -24,22 +24,22 @@ $db = new Database();
 $pdo = $db->getConnection();
 
 try {
-    $stmt = $pdo->prepare("INSERT INTO equipamentos (patrimonio, tipo, descricao, setor, responsavel, status)
+    $stmt = $pdo->prepare("INSERT INTO equipamentos (patrimonio, tipo, descricao, setor, responsavel, status) 
                             VALUES (:patrimonio, :tipo, :descricao, :setor, :responsavel, :status)");
-
+    
     $stmt->bindParam(':patrimonio', $patrimonio);
     $stmt->bindParam(':tipo', $tipo);
+    $stmt->bindParam(':descricao', $descricao);
     $stmt->bindParam(':setor', $setor);
     $stmt->bindParam(':responsavel', $responsavel);
     $stmt->bindParam(':status', $status);
-    $stmt->bindParam(':descricao', $descricao);
-
+    
     $stmt->execute();
 
-    header('Location: inventario.php?sucesso=1');
+    echo json_encode(['sucesso' => true, 'mensagem' => 'Equipamento cadastrado com sucesso!']);
     exit;
 
 } catch (PDOException $e) {
-    header('Location: inventario.php?erro=patrimonio_duplicado');
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Erro: patrimônio já cadastrado.']);
     exit;
 }
