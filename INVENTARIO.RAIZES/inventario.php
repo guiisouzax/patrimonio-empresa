@@ -79,7 +79,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
     body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
-<body class="min-h-screen bg-slate-100 text-slate-800 antialiased">
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen p-8">
 
   <?php if (!empty($sucesso) && isset($mensagensSucesso[$sucesso])): ?>
 <div id="alertaSucesso" class="fixed top-4 right-4 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg shadow-sm flex items-center gap-2 z-50">
