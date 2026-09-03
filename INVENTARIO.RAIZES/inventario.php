@@ -19,6 +19,15 @@ $status_filtro = $_GET['status'] ?? '';
 $sql = "SELECT * FROM equipamentos WHERE 1=1";
 $params = [];
 
+$sucesso = $_GET['sucesso'] ?? '';
+
+$mensagensSucesso = [
+    '1' => 'Equipamento cadastrado com sucesso!',
+    'editado' => 'Equipamento atualizado com sucesso!',
+    'excluido' => 'Equipamento excluído com sucesso!',
+];
+
+
 if (!empty($busca)) {
     $sql .= " AND (patrimonio LIKE :busca1 OR descricao LIKE :busca2 OR responsavel LIKE :busca3 OR setor LIKE :busca4 OR tipo LIKE :busca5)";
     $params[':busca1'] = '%' . $busca . '%';
@@ -72,7 +81,12 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen">
 
-  <div class="max-w-7xl mx-auto p-6">
+  <?php if (!empty($sucesso) && isset($mensagensSucesso[$sucesso])): ?>
+<div id="alertaSucesso" class="fixed top-4 right-4 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg shadow-sm flex items-center gap-2 z-50">
+    <i class="fa-solid fa-circle-check"></i>
+    <?php echo $mensagensSucesso[$sucesso]; ?>
+</div>
+<?php endif; ?>
     
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -369,6 +383,15 @@ document.getElementById('campoBusca').addEventListener('input', function() {
             });
     }, 300);
 });
+
+const alerta = document.getElementById('alertaSucesso');
+if (alerta) {
+  setTimeout(() => {
+    alerta.style.transition = 'opacity 0.5s';
+    alerta.style.opacity = '0';
+    setTimeout(() => alerta.remove(), 500);
+  }, 3000);
+}
 </script>
 </body>
 </html>
