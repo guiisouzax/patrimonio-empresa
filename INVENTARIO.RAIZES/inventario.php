@@ -120,52 +120,49 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
 
     <!-- Cards de Métricas (Zerados) -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">
-        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total de Itens</p>
-        <p class="text-2xl font-bold text-slate-900 mt-1"><?php echo $totalItens; ?></p>
+    <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total de Itens</p>
+    <p class="text-2xl font-bold text-slate-900 dark:text-white mt-1"><?php echo $totalItens; ?></p>
+    </div>
+      <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Em uso</p>
+    <p class="text-2xl font-bold text-slate-900 dark:text-white mt-1"><?php echo $totalEmUso; ?></p>
+</div>
       </div>
-      <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">
-        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Em Uso</p>
-        <p class="text-2xl font-bold text-emerald-600 mt-1"><?php echo $totalEmUso; ?></p>
-      </div>
-      <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">
-        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Disponíveis (Estoque)</p>
-        <p class="text-2xl font-bold text-blue-600 mt-1"><?php echo $totalDisponivel; ?></p>
-      </div>
-      <div class="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">
-        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Em Manutenção</p>
-        <p class="text-2xl font-bold text-amber-600 mt-1"><?php echo $totalManutencao; ?></p>
-      </div>
+      <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total disponivel (ESTOQUE)</p>
+    <p class="text-2xl font-bold text-slate-900 dark:text-white mt-1"><?php echo $totalDisponivel; ?></p>
+</div>
+      <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Manutenção</p>
+    <p class="text-2xl font-bold text-slate-900 dark:text-white mt-1"><?php echo $totalManutencao; ?></p>
+</div>
     </div>
 
-    <form method="GET" action="inventario.php" class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">
-  
+<form method="GET" action="inventario.php" class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-sm mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">  
   <div class="relative w-full md:w-96">
     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
     </div>
     <input type="text" id="campoBusca" name="busca" value="<?php echo htmlspecialchars($busca); ?>" placeholder="Buscar por patrimônio, modelo ou usuário..." 
-           class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+       class="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-700 dark:text-white border border-slate-200 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-700 transition-all">
   </div>
 
   <div class="flex flex-wrap gap-3 w-full md:w-auto">
     
-    <select name="setor" onchange="this.form.submit()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
-      <option value="">Todos os Setores</option>
+<select name="setor" onchange="this.form.submit()" class="px-3 py-2 bg-slate-50 dark:bg-slate-700 dark:text-white border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">      <option value="">Todos os Setores</option>
       <?php foreach (['financeiro','operacoes','expedicao','comercial','ti','rh','servidor'] as $opcao): ?>
         <option value="<?php echo $opcao; ?>" <?php echo $setor_filtro === $opcao ? 'selected' : ''; ?>><?php echo ucfirst($opcao); ?></option>
       <?php endforeach; ?>
     </select>
 
-    <select name="tipo" onchange="this.form.submit()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
-      <option value="">Todos os Equipamentos</option>
+<select name="tipo" onchange="this.form.submit()" class="px-3 py-2 bg-slate-50 dark:bg-slate-700 dark:text-white border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">      <option value="">Todos os Equipamentos</option>
       <?php foreach (['notebook','desktop','monitor','impressora','periferico','coletor'] as $opcao): ?>
         <option value="<?php echo $opcao; ?>" <?php echo $tipo_filtro === $opcao ? 'selected' : ''; ?>><?php echo ucfirst($opcao); ?></option>
       <?php endforeach; ?>
     </select>
 
-    <select name="status" onchange="this.form.submit()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
-      <option value="">Todos os Status</option>
+<select name="status" onchange="this.form.submit()" class="px-3 py-2 bg-slate-50 dark:bg-slate-700 dark:text-white border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">      <option value="">Todos os Status</option>
       <option value="em_uso" <?php echo $status_filtro === 'em_uso' ? 'selected' : ''; ?>>Em Uso</option>
       <option value="disponivel" <?php echo $status_filtro === 'disponivel' ? 'selected' : ''; ?>>Disponível</option>
       <option value="manutencao" <?php echo $status_filtro === 'manutencao' ? 'selected' : ''; ?>>Manutenção</option>
@@ -174,10 +171,10 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
   </div>
 </form>
     <!-- Tabela -->
-<div class="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+<div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-sm overflow-hidden">
   <div class="overflow-x-auto">
-    <table class="w-full text-left text-sm text-slate-600">
-      <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase font-semibold text-slate-500 tracking-wider">
+    <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+      <thead class="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600 text-xs uppercase font-semibold text-slate-500 dark:text-slate-400 tracking-wider">
         <tr>
           <th scope="col" class="px-6 py-3.5 cursor-pointer select-none hover:text-slate-700" onclick="ordenarTabela(0)">
           Patrimônio <i class="fa-solid fa-sort text-xs ml-1"></i>
@@ -201,7 +198,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
         <th scope="col" class="px-6 py-3.5 text-right">Ações</th>
         </tr>
       </thead>
-      <tbody id="corpoTabela" class="divide-y divide-slate-100">
+      <tbody id="corpoTabela" class="divide-y divide-slate-100 dark:divide-slate-700">
         <?php if (count($equipamentos) === 0): ?>
           <tr>
             <td colspan="8" class="px-6 py-12 text-center text-slate-400">
@@ -213,7 +210,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
         <?php else: ?>
           <?php foreach ($equipamentos as $equipamento): ?>
           <tr>
-            <td class="px-6 py-4 font-medium text-slate-900"><?php echo htmlspecialchars($equipamento['patrimonio']); ?></td>
+           <td class="px-6 py-4 font-medium text-slate-900 dark:text-white"><?php echo htmlspecialchars($equipamento['patrimonio']); ?></td>
             <td class="px-6 py-4"><?php echo htmlspecialchars(ucfirst($equipamento['tipo'])); ?></td>
             <td class="px-6 py-4 text-slate-500 max-w-xs truncate"><?php echo htmlspecialchars($equipamento['descricao'] ?? '-'); ?></td>
             <td class="px-6 py-4">
