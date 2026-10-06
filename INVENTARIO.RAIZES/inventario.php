@@ -73,13 +73,18 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventário de T.I</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+        darkMode: 'class'
+    }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased min-h-screen p-16">
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-100 antialiased min-h-screen transition-colors">
 
   <?php if (!empty($sucesso) && isset($mensagensSucesso[$sucesso])): ?>
 <div id="alertaSucesso" class="fixed top-4 right-4 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg shadow-sm flex items-center gap-2 z-50">
@@ -103,6 +108,9 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
         <i class="fa-solid fa-right-from-bracket"></i>
         Sair
     </a>
+    <button onclick="alternarTema()" class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 px-3.5 py-2 rounded-lg shadow-sm transition-colors">
+    <i id="iconeTema" class="fa-solid fa-moon"></i>
+    </button>
 </div>
       <button onclick="abrirModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2.5 rounded-lg text-sm shadow-sm transition-colors flex items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -362,6 +370,27 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
   </div>
 
 <script>
+    function alternarTema() {
+    const html = document.documentElement;
+    const icone = document.getElementById('iconeTema');
+    
+    html.classList.toggle('dark');
+    
+    if (html.classList.contains('dark')) {
+        localStorage.setItem('tema', 'dark');
+        icone.classList.remove('fa-moon');
+        icone.classList.add('fa-sun');
+    } else {
+        localStorage.setItem('tema', 'light');
+        icone.classList.remove('fa-sun');
+        icone.classList.add('fa-moon');
+    }
+}
+
+// Aplica o tema salvo assim que a página carrega
+if (localStorage.getItem('tema') === 'dark') {
+    document.documentElement.classList.add('dark');
+}
     let colunaAtual = -1;
     let ordemCrescente = true;
 
