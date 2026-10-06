@@ -171,14 +171,26 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
     <table class="w-full text-left text-sm text-slate-600">
       <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase font-semibold text-slate-500 tracking-wider">
         <tr>
-          <th scope="col" class="px-6 py-3.5">Patrimônio</th>
-          <th scope="col" class="px-6 py-3.5">Equipamento</th>
-          <th scope="col" class="px-6 py-3.5">Descrição</th>
-          <th scope="col" class="px-6 py-3.5">Setor</th>
-          <th scope="col" class="px-6 py-3.5">Responsável</th>
-          <th scope="col" class="px-6 py-3.5">Status</th>
-          <th scope="col" class="px-6 py-3.5 text-right">Data</th>
-          <th scope="col" class="px-6 py-3.5 text-right">Ações</th>
+          <th scope="col" class="px-6 py-3.5 cursor-pointer select-none hover:text-slate-700" onclick="ordenarTabela(0)">
+          Patrimônio <i class="fa-solid fa-sort text-xs ml-1"></i>
+        </th>
+        <th scope="col" class="px-6 py-3.5 cursor-pointer select-none hover:text-slate-700" onclick="ordenarTabela(1)">
+          Equipamento <i class="fa-solid fa-sort text-xs ml-1"></i>
+        </th>
+        <th scope="col" class="px-6 py-3.5">Descrição</th>
+        <th scope="col" class="px-6 py-3.5 cursor-pointer select-none hover:text-slate-700" onclick="ordenarTabela(3)">
+          Setor <i class="fa-solid fa-sort text-xs ml-1"></i>
+        </th>
+        <th scope="col" class="px-6 py-3.5 cursor-pointer select-none hover:text-slate-700" onclick="ordenarTabela(4)">
+            Responsável <i class="fa-solid fa-sort text-xs ml-1"></i>
+        </th>
+        <th scope="col" class="px-6 py-3.5 cursor-pointer select-none hover:text-slate-700" onclick="ordenarTabela(5)">
+            Status <i class="fa-solid fa-sort text-xs ml-1"></i>
+        </th>
+        <th scope="col" class="px-6 py-3.5 text-right cursor-pointer select-none hover:text-slate-700" onclick="ordenarTabela(6)">
+            Data <i class="fa-solid fa-sort text-xs ml-1"></i>
+        </th>
+        <th scope="col" class="px-6 py-3.5 text-right">Ações</th>
         </tr>
       </thead>
       <tbody id="corpoTabela" class="divide-y divide-slate-100">
@@ -350,6 +362,31 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
   </div>
 
 <script>
+    let colunaAtual = -1;
+    let ordemCrescente = true;
+
+    function ordenarTabela(indiceColuna) {
+    const tbody = document.getElementById('corpoTabela');
+    const linhas = Array.from(tbody.querySelectorAll('tr'));
+
+    if (colunaAtual === indiceColuna) {
+        ordemCrescente = !ordemCrescente;
+    } else {
+        ordemCrescente = true;
+        colunaAtual = indiceColuna;
+    }
+
+    linhas.sort((linhaA, linhaB) => {
+        const textoA = linhaA.children[indiceColuna].textContent.trim().toLowerCase();
+        const textoB = linhaB.children[indiceColuna].textContent.trim().toLowerCase();
+
+        if (textoA < textoB) return ordemCrescente ? -1 : 1;
+        if (textoA > textoB) return ordemCrescente ? 1 : -1;
+        return 0;
+    });
+
+    linhas.forEach(linha => tbody.appendChild(linha));
+}
   function abrirModal() {
       const modal = document.getElementById('modalNovoEquipamento');
       modal.classList.remove('hidden');
