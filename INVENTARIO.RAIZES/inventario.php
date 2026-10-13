@@ -83,7 +83,15 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
   <style>
     html { font-size: 90%; }
     body { font-family: 'Inter', sans-serif; }
-  </style>
+    html.dark .modal-card { background: #1e293b; color: #f1f5f9; }
+    html.dark .modal-card h2 { color: #ffffff; }
+    html.dark .modal-card input,
+    html.dark .modal-card select,
+    html.dark .modal-card textarea {
+    background: #334155;
+    color: #ffffff;
+    border-color: #475569;
+  }
   </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-100 screen p-16 antialiased min-h-screen transition-colors">
@@ -98,16 +106,16 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
       <div>
-        <h1 class="text-2xl font-bold text-slate-900">Inventário de Equipamentos</h1>
-        <p class="text-sm text-slate-500">Gerenciamento e controle patrimonial de T.I</p>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Inventário de Equipamentos</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400">Gerenciamento e controle patrimonial de T.I</p>
       </div>
       <div class="flex items-center gap-4">
-    <span class="text-sm text-slate-600">
+    <span class="text-sm text-slate-600 dark:text-slate-300">
         Olá, <b><?php echo htmlspecialchars($_SESSION['usuario_nome']); ?></b>
     </span>
     <a href="logout.php" 
        class="flex items-center gap-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 hover:border-red-300 hover:text-red-600 hover:bg-red-50 px-3.5 py-2 rounded-lg shadow-sm transition-colors">
-        <i class="fa-solid fa-right-from-bracket"></i>
+        <i class="dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300"></i>
         Sair
     </a>
     <button onclick="alternarTema()" class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 px-3.5 py-2 rounded-lg shadow-sm transition-colors">
@@ -246,7 +254,8 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
             </td>
           </tr>
           <!-- Modal Editar Equipamento #<?php echo $equipamento['id']; ?> -->
-<div id="modalEditar<?php echo $equipamento['id']; ?>" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+<div class="modal-card bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+          <div id="modalEditar<?php echo $equipamento['id']; ?>" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
     <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold text-slate-900">Editar Equipamento</h2>
@@ -308,6 +317,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
         </form>
     </div>
 </div>
+</div>
           <?php endforeach; ?>
         <?php endif; ?>
       </tbody>
@@ -315,6 +325,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
   </div>
 </div>
 <!-- Modal Novo Equipamento -->
+ <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
   <div id="modalNovoEquipamento" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
       <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
           <div class="flex justify-between items-center mb-4">
@@ -367,7 +378,7 @@ $totalManutencao = $pdo->query("SELECT COUNT(*) FROM equipamentos WHERE status =
           </form>
       </div>
   </div>
-
+</div>
 <script>
     function alternarTema() {
     const html = document.documentElement;
